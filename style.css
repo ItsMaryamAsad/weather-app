@@ -1,38 +1,25 @@
-/* Mobile-first UX tweaks */
+/* 1. Global Reset & Mobile Optimization */
+* {
+  box-sizing: border-box; /* Crucial: prevents padding from breaking the width */
+}
+
 html, body {
-  overscroll-behavior-y: contain; /* Prevents "pull-to-refresh" in browsers */
-  user-select: none; /* Prevents text highlighting while tapping buttons */
-}
-
-input {
-  user-select: auto; /* Re-enable text selection for input fields */
-}
-
-button, .dropdown-selected, .dropdown-item {
-  touch-action: manipulation; /* Removes the 300ms tap delay on mobile */
-  -webkit-tap-highlight-color: transparent; /* Removes the blue highlight box on tap */
-}
-
-@media (max-width: 480px) {
-  .container {
-    width: 95%;
-    padding: 10px;
-  }
-  .temp {
-    font-size: 3.5rem; /* Larger for mobile readability */
-  }
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  overscroll-behavior-y: contain; /* Prevents pull-to-refresh */
+  user-select: none;
+  overflow-x: hidden; /* Fixes the horizontal scroll/line issue */
 }
 
 body {
-  margin: 0;
-  padding: 0;
   font-family: "Poppins", sans-serif;
   color: black;
   text-align: center;
-  min-height: 100vh;
-  overflow-x: hidden;
   background: linear-gradient(-45deg, #74ebd5, #acb6e5, #fddb92, #d1fdff);
   background-size: 400% 400%;
+  background-attachment: fixed; /* Keeps background still while scrolling */
   animation: gradientBG 12s ease infinite;
 }
 
@@ -42,12 +29,139 @@ body {
   100% { background-position: 0% 50%; }
 }
 
+/* 2. Container Layout */
 .container {
+  width: 100%;
   max-width: 500px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 15px; /* Reduced for mobile */
 }
 
+/* 3. Interactive Elements */
+input {
+  padding: 12px;
+  width: 70%;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  user-select: auto;
+}
+
+button, .dropdown-selected, .dropdown-item {
+  touch-action: manipulation; /* Removes tap delay */
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #fff;
+  color: #333;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+button.active {
+  background: #2196f3;
+  color: white;
+}
+
+/* 4. Weather Info Card */
+.weather-info {
+  display: none;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  margin: 20px 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.weather-info.show {
+  display: block;
+  opacity: 1;
+}
+
+.temp {
+  font-size: 3rem; /* Adjusted for mobile */
+  font-weight: bold;
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.3);
+}
+
+/* 5. Forecast Horizontal Scrolling (The Fix for horizontal breaking) */
+.forecast-container, .hourly-forecast {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px 5px;
+  -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+}
+
+/* Hide scrollbars for a cleaner look */
+.forecast-container::-webkit-scrollbar, 
+.hourly-forecast::-webkit-scrollbar {
+  display: none;
+}
+
+.forecast-card, .hourly-card {
+  flex: 0 0 auto; /* Prevents cards from shrinking */
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  padding: 15px;
+  border-radius: 12px;
+}
+
+/* 6. Grid Fix */
+.weather-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.weather-details-grid p {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px 10px 10px 35px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  margin: 0;
+  position: relative;
+  text-align: left;
+}
+
+.weather-details-grid p::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+}
+
+/* 7. Dropdown Fix for Mobile */
+.dropdown {
+  position: relative;
+  width: 100%; /* Take full width of parent */
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+.favorites {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+/* Loader */
 .loader {
   border: 6px solid rgba(0,0,0,0.1);
   border-top: 6px solid #2196f3;
@@ -58,480 +172,4 @@ body {
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Smooth fade-in for weather info */
-.weather-info {
-  display: none;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.weather-info.show {
-  display: block;
-  opacity: 1;
-}
-
-.intro {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.intro-img {
-  width: 100px;
-  margin-top: 10px;
-}
-
-.search-box {
-  margin-bottom: 15px;
-}
-
-input {
-  padding: 10px;
-  width: 70%;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-}
-
-button {
-  padding: 10px 15px;
-  margin-left: 5px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #fff;
-  color: #333;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-button:hover {
-  background: #e0e0e0;
-}
-
-button.active {
-  background: #2196f3;
-  color: white;
-}
-
-.weather-info img {
-  width: 100px;
-}
-
-.weather-main-icon {
-  width: 120px;
-  margin-bottom: 10px;
-  animation: floatIcon 2s ease-in-out infinite alternate;
-}
-
-@keyframes floatIcon {
-  /* 0% { transform: translateY(0px); }
-  100% { transform: translateY(-10px); } */
-  0% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-10px) scale(1.05); }
-  100% { transform: translateY(0px) scale(1); }
-}
-
-.weather-info {
-  display: none;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
-  margin-top: 20px;
-  color: black;
-  position: relative;
-  z-index: 2;
-  transition: all 0.3s ease;
-}
-
-
-/* Top section: city, day, date, icon, main temp */
-.weather-info h2, 
-.weather-info h3, 
-.weather-info p.temp {
-  margin: 5px 0;
-}
-
-.weather-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-
-
-.weather-top img.weather-main-icon {
-  width: 100px;
-  animation: floatIcon 2s ease-in-out infinite alternate;
-}
-
-.temp {
-  font-size: 2.5rem;
-  font-weight: bold;
-  text-shadow: 1px 1px 6px rgba(0,0,0,0.3);
-}
-/* Weather condition text */
-.desc {
-  font-size: 1.1rem;        /* Slightly bigger text */
-  font-weight: 600;          /* Bold enough to stand out */
-  color: black;               /* Dark gray for readability */
-  text-align: center;        /* Centered in the card */
-  margin-top: 5px;           /* Space above */
-  text-transform: capitalize; /* Automatically capitalize words */
-}
-
-.date-time {
-  font-size: 0.9rem;
-  font-style: italic;
-  opacity: 0.85;
-}
-
-.weather-details-grid p {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(6px);
-  padding: 10px 10px 10px 35px; /* space for icon */
-  border-radius: 12px;
-  font-size: 0.95rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 6px;
-  position: relative;
-}
-
-.weather-details-grid p::before {
-  content: '';
-  position: absolute;
-  left: 10px;
-  width: 20px;
-  height: 20px;
-  background-size: cover;
-}
-
-/* Specific icons */
-#feelsLike::before {
-  background-image: url("https://cdn-icons-png.flaticon.com/512/414/414927.png");
-}
-#highLowTemp::before {
-  background-image: url("https://cdn-icons-png.flaticon.com/512/3815/3815449.png");
-}
-#description::before {
-  background-image: url("https://cdn-icons-png.flaticon.com/512/1163/1163661.png");
-}
-#humidity::before {
-  background-image: url("https://cdn-icons-png.flaticon.com/512/728/728093.png");
-}
-#pressure::before {
-  background-image: url("https://cdn-icons-png.flaticon.com/512/2933/2933115.png");
-}
-#wind::before {
-  background-image: url("https://cdn-icons-png.flaticon.com/512/2011/2011448.png");
-}
-#windDir::before {
-  background-image: url("https://cdn-icons-png.flaticon.com/512/3179/3179068.png");
-}
-#visibility::before {
-  background-image: url("https://cdn-icons-png.flaticon.com/512/709/709612.png");
-}
-#sunrise::before {
-  background-image: url("https://cdn-icons-png.flaticon.com/512/1852/1852525.png");
-}
-#sunset::before {
-  background-image: url("https://cdn-icons-png.flaticon.com/512/3236/3236899.png");
-}
-
-.weather-details-grid p:hover {
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.forecast-container {
-  display: flex;
-  overflow-x: auto;
-  padding: 10px;
-  gap: 10px;
-  scroll-snap-type: x mandatory;
-}
-
-.forecast-card {
-  flex: 0 0 auto;
-  background: rgba(255, 255, 255, 0.3);
-  padding: 15px;
-  border-radius: 12px;
-  scroll-snap-align: start;
-  min-width: 120px;
-  transition: transform 0.3s ease;
-}
-
-.forecast-day {
-  font-weight: 600;
-  margin-bottom: 5px;
-  font-size: 0.9rem;
-}
-
-.forecast-card:hover {
-  transform: translateY(-5px);
-}
-
-.forecast-card img {
-  width: 50px;
-}
-
-.error {
-  color: #ff6b6b;
-  margin-top: 10px;
-}
-
-
-.hourly-forecast {
-  display: flex;
-  overflow-x: auto;
-  gap: 10px;
-  padding: 10px 0;
-}
-
-.hourly-card {
-  min-width: 70px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  border-radius: 12px;
-  padding: 10px;
-  text-align: center;
-  flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.hourly-card img {
-  width: 40px;
-  margin: 5px 0;
-}
-
-.hourly-time {
-  font-size: 0.8rem;
-  font-weight: bold;
-}
-
-.hourly-temp {
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-/* ===== Favorites Section ===== */
-.favorites {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  font-family: "Poppins", sans-serif;
-}
-
-/* Dropdown container */
-.dropdown {
-  position: relative;
-  width: 220px;
-}
-
-/* Selected city display */
-.dropdown-selected {
-  background: linear-gradient(135deg, #e8f0ff, #f8fbff);
-  border: 1px solid #a8c4ff;
-  border-radius: 10px;
-  padding: 9px 12px;
-  font-size: 14px;
-  color: #1e3a8a;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: left;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.dropdown-selected:hover {
-  background: linear-gradient(135deg, #dbe9ff, #f2f6ff);
-}
-
-/* Dropdown list container */
-.dropdown-list {
-  position: absolute;
-  top: 105%;
-  left: 0;
-  width: 100%;
-  background: white;
-  border: 1px solid #d4e1ff;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-  max-height: 180px;
-  overflow-y: auto;
-  z-index: 100;
-  animation: fadeIn 0.2s ease;
-}
-
-/* City items inside dropdown */
-.dropdown-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  font-size: 14px;
-  color: #1e3a8a;
-  transition: background 0.25s ease;
-  cursor: pointer;
-}
-
-.dropdown-item:hover {
-  background: #f0f6ff;
-}
-
-/* ❌ Remove button */
-.remove-btn {
-  opacity: 0;
-  background: none;
-  border: none;
-  color: #e63946;
-  font-size: 14px;
-  cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.dropdown-item:hover .remove-btn {
-  opacity: 1;
-  transform: scale(1.15);
-}
-
-/* Add button styling */
-#addFavoriteBtn {
-  background: linear-gradient(135deg, #4c8bf5, #5da0ff);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-size: 14px;
-  cursor: pointer;
-  box-shadow: 0 3px 8px rgba(76, 139, 245, 0.4);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-#addFavoriteBtn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 5px 12px rgba(76, 139, 245, 0.45);
-}
-
-/* Scrollbar styling */
-.dropdown-list::-webkit-scrollbar {
-  width: 6px;
-}
-.dropdown-list::-webkit-scrollbar-thumb {
-  background: #a8c4ff;
-  border-radius: 6px;
-}
-
-.hidden {
-  display: none;
-}
-
-/* Simple fade animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Clothing & Activity Suggestion */
-/* .suggestion-text {
-  margin-top: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  color: #1e3a8a;
-  text-align: center;
-  background: #f0f6ff;
-  padding: 8px 12px;
-  border-radius: 10px;
-  display: inline-block;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  animation: fadeIn 0.5s ease;
-} */
-
-.suggestion-text {
-  margin-top: 10px;
-  font-size: 1rem;
-  color: #fff;
-  background: rgba(0,0,0,0.3);
-  padding: 10px;
-  border-radius: 10px;
-  line-height: 1.5;
-  text-align: left;
-}
-
-
-.sunrise-sunset {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-top: 15px;
-  gap: 40px;
-  padding: 12px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 0 10px rgba(255,255,255,0.2);
-}
-
-.sunrise, .sunset {
-  text-align: center;
-}
-
-.sunrise-icon {
-  width: 30px;
-  filter: drop-shadow(0 0 4px orange);
-}
-
-.sunset-icon {
-  width: 30px;
-  filter: drop-shadow(0 0 4px purple);
-}
-
-#sunriseTime, #sunsetTime {
-  display: block;
-  font-size: 1rem;
-  font-weight: 500;
-  color: black;
-  margin-top: 5px;
-}
-
-#sunriseCountdown, #sunsetCountdown {
-  font-size: 0.9rem;
-  color: black;
-  margin-top: 4px;
-}
-
-/* Countdown color transitions */
-.countdown {
-  transition: color 0.6s ease, text-shadow 0.6s ease;
-  font-weight: 500;
-}
-
-.countdown.soon {
-  color: #ff4d4d;
-  text-shadow: 0 0 6px rgba(255, 77, 77, 0.8);
-}
-
-.countdown.medium {
-  color: #ffae42;
-  text-shadow: 0 0 5px rgba(255, 174, 66, 0.7);
-}
-
-.countdown.far {
-  color: #5aff5a;
-  text-shadow: 0 0 5px rgba(90, 255, 90, 0.7);
-}
+@keyframes spin { 100% { transform: rotate(360deg); } }

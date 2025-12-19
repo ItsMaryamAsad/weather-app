@@ -1,5 +1,26 @@
-* {
-  box-sizing: border-box;
+/* Mobile-first UX tweaks */
+html, body {
+  overscroll-behavior-y: contain; /* Prevents "pull-to-refresh" in browsers */
+  user-select: none; /* Prevents text highlighting while tapping buttons */
+}
+
+input {
+  user-select: auto; /* Re-enable text selection for input fields */
+}
+
+button, .dropdown-selected, .dropdown-item {
+  touch-action: manipulation; /* Removes the 300ms tap delay on mobile */
+  -webkit-tap-highlight-color: transparent; /* Removes the blue highlight box on tap */
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 95%;
+    padding: 10px;
+  }
+  .temp {
+    font-size: 3.5rem; /* Larger for mobile readability */
+  }
 }
 
 body {
@@ -9,11 +30,9 @@ body {
   color: black;
   text-align: center;
   min-height: 100vh;
-  width: 100%;             /* ADD THIS */
-  overflow-x: hidden;      /* KEEP THIS - it prevents the side line */
+  overflow-x: hidden;
   background: linear-gradient(-45deg, #74ebd5, #acb6e5, #fddb92, #d1fdff);
   background-size: 400% 400%;
-  background-attachment: fixed; /* ADD THIS - keeps background smooth */
   animation: gradientBG 12s ease infinite;
 }
 
@@ -25,10 +44,8 @@ body {
 
 .container {
   max-width: 500px;
-  width: 100%;             /* ADD THIS */
   margin: 0 auto;
   padding: 20px;
-  box-sizing: border-box;  /* ADD THIS - very important for mobile */
 }
 
 .loader {

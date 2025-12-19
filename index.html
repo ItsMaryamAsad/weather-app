@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather App</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Let’s find out today’s weather!</h1>
+
+    <!-- <div class="intro">
+      <p id="introText">Let’s find out today’s weather! 🌦️</p>
+      <img src="https://cdn-icons-png.flaticon.com/512/1163/1163661.png" alt="Weather Icon" class="intro-img" />
+    </div> -->
+
+    <div class="search-box">
+      <input type="text" id="cityInput" placeholder="Enter city name" />
+      <button id="searchBtn">Search</button>
+    </div>
+
+    <!-- <div class="favorites">
+      <label for="citySelect">Saved Cities: </label>
+      <select id="citySelect">
+        <option value="">-- Select a city --</option>
+      </select>
+      <button id="addFavoriteBtn">Add to Favorites</button>
+    </div> -->
+<!-- 
+    <div class="favorites">
+      <label>Saved Cities:</label>
+      <div id="favoritesDropdown" class="dropdown">
+        <div id="selectedCity" class="dropdown-selected">-- Select a city --</div>
+        <div id="dropdownList" class="dropdown-list hidden"></div>
+      </div>
+      <button id="addFavoriteBtn">Add to Favorites</button>
+    </div> -->
+
+    <div class="favorites">
+      <label>Saved Cities:</label>
+      <div id="favoritesDropdown" class="dropdown">
+        <div id="selectedCity" class="dropdown-selected">-- Select a city --</div>
+        <div id="dropdownList" class="dropdown-list hidden"></div>
+      </div>
+      <button id="addFavoriteBtn">Add to Favorites</button>
+    </div>
+
+
+
+    <div class="toggle">
+      <button id="celsiusBtn" class="active">Show °C</button>
+      <button id="fahrenBtn">Show °F</button>
+    </div>
+
+    <!-- <div id="loader" style="display:none;">Loading...</div> -->
+    <div id="loader" class="loader" style="display:none;"></div>
+
+    <div class="weather-info" id="weatherInfo">
+  <div class="weather-top">
+        <!-- Left: City & Date -->
+    <div class="weather-location">
+      <h2 id="cityName"></h2>
+      <h3 id="dayName" class="date-time"></h3>
+      <p id="dateTime" class="date-time"></p>
+    </div>
+    <!-- Right: Main Weather Info -->
+    <div class="weather-main-section">
+      <img id="weatherIcon" src="" alt="" class="weather-main-icon"/>
+      <p id="temperature" class="temp"></p>
+      <p id="feelsLike"class="feels-like"> Feels Like</p>
+      <!-- <p id="highLowTemp"class="hl-temp"> High / Low</p> -->
+      <p></p>
+      <p id="description"class="desc"></p>
+    </div>
+    <div class="sunrise-sunset">
+      <div class="sunrise">
+        <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" class="mini-icon sunrise-icon" alt="Sunrise">
+        <span id="sunriseTime"></span>
+        <p id="sunriseCountdown"></p>
+      </div>
+      <div class="sunset">
+        <img src="https://cdn-icons-png.flaticon.com/512/3222/3222800.png" class="mini-icon sunset-icon" alt="Sunset">
+        <span id="sunsetTime"></span>
+        <p id="sunsetCountdown"></p>
+      </div>
+    </div>
+
+  </div>
+
+
+    <p id="suggestion" class="suggestion-text"></p>
+    <h3>Next 24 Hours</h3>
+  <div class="hourly-forecast" id="hourlyForecast"></div>
+
+  <div class="weather-details-grid">
+    <!-- <p id="feelsLike"><img src="https://cdn-icons-png.flaticon.com/512/552/552721.png" class="mini-icon"> Feels Like</p> -->
+    <p id="highLowTemp"><img src="https://cdn-icons-png.flaticon.com/512/1146/1146869.png" class="mini-icon"> High / Low</p>
+    <!-- <p id="description"><img src="https://cdn-icons-png.flaticon.com/512/1163/1163624.png" class="mini-icon"> Condition</p> -->
+    <p id="humidity"><img src="https://cdn-icons-png.flaticon.com/512/728/728093.png" class="mini-icon"> Humidity</p>
+    <p id="pressure"><img src="https://cdn-icons-png.flaticon.com/512/992/992700.png" class="mini-icon"> Pressure</p>
+    <p id="wind"><img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" class="mini-icon"> Wind</p>
+    <p id="windDir"><img src="https://cdn-icons-png.flaticon.com/512/3179/3179068.png" class="mini-icon"> Direction</p>
+    <p id="sunrise">Sunrise</p>
+    <p id="sunset">Sunset</p>
+    <p id="visibility"><img src="https://cdn-icons-png.flaticon.com/512/709/709612.png" class="mini-icon"> Visibility</p>
+
+</div>
+
+    <h3>Next 5 Days Forecast</h3>
+    <div class="forecast-container" id="forecastContainer"></div>
+
+    <p class="error" id="errorMsg"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -4,7 +4,7 @@ A feature-rich, real-time **Weather Forecast Web Application** built using HTML,
 This project integrates external weather APIs to provide live weather updates, hourly forecasts, and 5-day predictions with an interactive and animated UI.
 
 ## 🌐 Live Demo
-👉 https://your-username.github.io/your-repo-name/
+👉 https://itsmaryamasad.github.io/weather-app/
 
 ## 📌 Project Overview
 
